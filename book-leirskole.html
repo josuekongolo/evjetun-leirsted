@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="no" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Primary Meta Tags -->
+    <title>Book Leirskole | Evjetun - Send Forespørsel</title>
+    <meta name="title" content="Book Leirskole | Evjetun - Send Forespørsel">
+    <meta name="description" content="Book leirskoleopphold på Evjetun. Fyll ut skjemaet så kontakter vi deg for å planlegge et uforglemmelig opphold for din klasse i Setesdal.">
+    <meta name="keywords" content="book leirskole, bestill leirskole, Evjetun booking, klasseturer, skoletur bestilling">
+    <meta name="author" content="Evjetun Leirsted">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://evjetun.no/book-leirskole.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://evjetun.no/book-leirskole.html">
+    <meta property="og:title" content="Book Leirskole | Evjetun">
+    <meta property="og:description" content="Book leirskoleopphold på Evjetun. Fyll ut skjemaet for å planlegge et uforglemmelig opphold.">
+    <meta property="og:site_name" content="Evjetun Leirsted">
+    <meta property="og:locale" content="nb_NO">
+
+    <!-- Favicon & Theme -->
+    <link rel="icon" type="image/png" href="https://d1nizz91i54auc.cloudfront.net/_service/505411/display/img_version/9056093/t/1765748979/img_name/68633_505411_ed69cfa349.png.webp">
+    <meta name="theme-color" content="#166534">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts & Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Full Page Booking Styles */
+        .booking-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .booking-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .booking-logo img {
+            height: 50px;
+        }
+
+        .booking-close {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .booking-close:hover {
+            color: var(--white);
+        }
+
+        .booking-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 101;
+        }
+
+        .booking-progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .booking-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 24px 60px;
+        }
+
+        .booking-form-wrapper {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .booking-step {
+            display: none;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .booking-step.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .step-content {
+            text-align: center;
+            color: var(--white);
+        }
+
+        .step-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-bottom: 28px;
+        }
+
+        .step-icon svg {
+            width: 40px;
+            height: 40px;
+            color: var(--white);
+        }
+
+        .step-icon-success {
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        .step-icon-success svg {
+            color: var(--accent);
+        }
+
+        .step-content h1 {
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .step-subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .step-question {
+            text-align: left;
+        }
+
+        .step-question .step-label {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 32px;
+            line-height: 1.3;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-input {
+            width: 100%;
+            padding: 20px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            font-family: inherit;
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .step-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .step-input:focus {
+            border-bottom-color: var(--accent);
+        }
+
+        .step-input.error {
+            border-bottom-color: #ef4444;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        .step-input-number {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 800;
+            text-align: center;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .step-textarea {
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--white);
+            font-family: inherit;
+            font-size: 1.125rem;
+            outline: none;
+            resize: none;
+            min-height: 140px;
+            transition: all 0.3s ease;
+        }
+
+        .step-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .step-textarea:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .step-hint {
+            font-size: 0.9375rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 16px;
+            text-align: left;
+        }
+
+        .step-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-choice {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--white);
+            font-family: inherit;
+            font-size: 1.0625rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .step-choice:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .step-choice.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .choice-key {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-choice.selected .choice-key {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .choice-text {
+            flex: 1;
+        }
+
+        .choice-text strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .choice-text small {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .step-choice.selected .choice-text small {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .step-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .step-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .step-btn:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .step-btn-start {
+            padding: 20px 48px;
+            font-size: 1.125rem;
+        }
+
+        .step-btn-submit {
+            padding: 20px 48px;
+            font-size: 1.125rem;
+        }
+
+        .step-skip {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            padding: 16px 24px;
+        }
+
+        .step-skip:hover {
+            color: var(--white);
+        }
+
+        .step-enter {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .booking-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin: 40px 0;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+
+        .summary-item {
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        .summary-value {
+            font-size: 1.375rem;
+            font-weight: 700;
+        }
+
+        .booking-contact {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 24px;
+        }
+
+        .booking-contact a {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .booking-arrows {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 10px;
+            z-index: 50;
+        }
+
+        .booking-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .booking-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .booking-header {
+                padding: 16px 20px;
+            }
+
+            .booking-logo img {
+                height: 40px;
+            }
+
+            .booking-container {
+                padding: 80px 20px 100px;
+            }
+
+            .step-icon {
+                width: 64px;
+                height: 64px;
+                margin-bottom: 24px;
+            }
+
+            .step-icon svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            .booking-summary {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .booking-arrows {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .booking-arrow {
+                width: 46px;
+                height: 46px;
+            }
+
+            .step-choice {
+                padding: 14px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-page">
+        <!-- Progress Bar -->
+        <div class="booking-progress">
+            <div class="booking-progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="booking-header">
+            <a href="index.html" class="booking-logo">
+                <img src="https://d1nizz91i54auc.cloudfront.net/_service/505411/display/img_version/9056093/t/1765748979/img_name/68633_505411_ed69cfa349.png.webp" alt="Evjetun">
+            </a>
+            <a href="leirskole.html" class="booking-close">
+                <span>Tilbake til leirskole</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+        </header>
+
+        <!-- Booking Form -->
+        <div class="booking-container">
+            <div class="booking-form-wrapper">
+                <form id="bookingForm">
+
+                    <!-- Step 0: Welcome -->
+                    <div class="booking-step active" data-step="0">
+                        <div class="step-content">
+                            <div class="step-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                            </div>
+                            <h1>Book leirskole<br>på Evjetun</h1>
+                            <p class="step-subtitle">Fyll ut skjemaet så kontakter vi deg for å planlegge et uforglemmelig opphold. Tar kun 2 minutter.</p>
+                            <button type="button" class="step-btn step-btn-start" onclick="nextStep()">
+                                Start booking
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: School Name -->
+                    <div class="booking-step" data-step="1">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">1</span>
+                                Hva heter skolen?
+                            </label>
+                            <input type="text" class="step-input" id="school" name="school" placeholder="Skriv skolens navn..." required>
+                            <p class="step-hint">F.eks. Evje barneskole</p>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    OK
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <span class="step-enter">Trykk Enter</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Grade -->
+                    <div class="booking-step" data-step="2">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">2</span>
+                                Hvilket klassetrinn?
+                            </label>
+                            <div class="step-choices" id="gradeChoices">
+                                <button type="button" class="step-choice" data-value="5. trinn">
+                                    <span class="choice-key">A</span>
+                                    <span class="choice-text">5. trinn</span>
+                                </button>
+                                <button type="button" class="step-choice" data-value="6. trinn">
+                                    <span class="choice-key">B</span>
+                                    <span class="choice-text">6. trinn</span>
+                                </button>
+                                <button type="button" class="step-choice" data-value="7. trinn">
+                                    <span class="choice-key">C</span>
+                                    <span class="choice-text">7. trinn</span>
+                                </button>
+                                <button type="button" class="step-choice" data-value="8.-10. trinn">
+                                    <span class="choice-key">D</span>
+                                    <span class="choice-text">8.–10. trinn</span>
+                                </button>
+                                <button type="button" class="step-choice" data-value="Videregående">
+                                    <span class="choice-key">E</span>
+                                    <span class="choice-text">Videregående</span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="grade" name="grade">
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Number of Students -->
+                    <div class="booking-step" data-step="3">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">3</span>
+                                Antall elever?
+                            </label>
+                            <input type="number" class="step-input step-input-number" id="students" name="students" placeholder="0" min="1" max="200" required>
+                            <p class="step-hint">Vi har kapasitet til 80–100 elever per uke</p>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    OK
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <span class="step-enter">Trykk Enter</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Season -->
+                    <div class="booking-step" data-step="4">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">4</span>
+                                Ønsket sesong?
+                            </label>
+                            <div class="step-choices" id="seasonChoices">
+                                <button type="button" class="step-choice" data-value="Vår">
+                                    <span class="choice-key">A</span>
+                                    <span class="choice-text">
+                                        <strong>Vår</strong>
+                                        <small>Mars – Juni</small>
+                                    </span>
+                                </button>
+                                <button type="button" class="step-choice" data-value="Høst">
+                                    <span class="choice-key">B</span>
+                                    <span class="choice-text">
+                                        <strong>Høst</strong>
+                                        <small>August – November</small>
+                                    </span>
+                                </button>
+                                <button type="button" class="step-choice" data-value="Vinter">
+                                    <span class="choice-key">C</span>
+                                    <span class="choice-text">
+                                        <strong>Vinter</strong>
+                                        <small>Januar – Mars</small>
+                                    </span>
+                                </button>
+                            </div>
+                            <input type="hidden" id="season" name="season">
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Preferred Week -->
+                    <div class="booking-step" data-step="5">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">5</span>
+                                Ønsket uke?
+                            </label>
+                            <input type="text" class="step-input" id="week" name="week" placeholder="F.eks. Uke 38, 2025">
+                            <p class="step-hint">Skriv gjerne alternativ uke også. Ikke obligatorisk.</p>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    OK
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <button type="button" class="step-skip" onclick="nextStep()">Hopp over</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Contact Name -->
+                    <div class="booking-step" data-step="6">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">6</span>
+                                Ditt navn?
+                            </label>
+                            <input type="text" class="step-input" id="contactName" name="contact_name" placeholder="Fullt navn" required>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    OK
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <span class="step-enter">Trykk Enter</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Email -->
+                    <div class="booking-step" data-step="7">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">7</span>
+                                E-postadresse?
+                            </label>
+                            <input type="email" class="step-input" id="email" name="email" placeholder="din@epost.no" required>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    OK
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <span class="step-enter">Trykk Enter</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 8: Phone -->
+                    <div class="booking-step" data-step="8">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">8</span>
+                                Telefonnummer?
+                            </label>
+                            <input type="tel" class="step-input" id="phone" name="phone" placeholder="000 00 000" required>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    OK
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <span class="step-enter">Trykk Enter</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 9: Message -->
+                    <div class="booking-step" data-step="9">
+                        <div class="step-content step-question">
+                            <label class="step-label">
+                                <span class="step-number">9</span>
+                                Noe vi bør vite?
+                            </label>
+                            <textarea class="step-textarea" id="message" name="message" placeholder="Allergier, spesielle behov, spørsmål..."></textarea>
+                            <p class="step-hint">Valgfritt felt</p>
+                            <div class="step-nav">
+                                <button type="button" class="step-btn" onclick="nextStep()">
+                                    Fortsett
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </button>
+                                <button type="button" class="step-skip" onclick="nextStep()">Hopp over</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 10: Summary -->
+                    <div class="booking-step" data-step="10">
+                        <div class="step-content">
+                            <div class="step-icon step-icon-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <h1>Alt klart!</h1>
+                            <p class="step-subtitle">Takk, <span id="summaryName">du</span>! Sjekk at informasjonen stemmer.</p>
+
+                            <div class="booking-summary">
+                                <div class="summary-item">
+                                    <div class="summary-label">Skole</div>
+                                    <div class="summary-value" id="summarySchool">–</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="summary-label">Elever</div>
+                                    <div class="summary-value" id="summaryStudents">–</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="summary-label">Sesong</div>
+                                    <div class="summary-value" id="summarySeason">–</div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="step-btn step-btn-submit">
+                                Send forespørsel
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+
+                            <p class="booking-contact">Eller ring <a href="tel:+4799792295">99 79 22 95</a> (Camilla Tveita)</p>
+                        </div>
+                    </div>
+
+                    <!-- Success Step -->
+                    <div class="booking-step" data-step="success">
+                        <div class="step-content">
+                            <div class="step-icon step-icon-success">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <h1>Forespørsel sendt!</h1>
+                            <p class="step-subtitle">Vi har mottatt din henvendelse og svarer innen 2-3 virkedager. Vi gleder oss til å høre fra dere!</p>
+                            <a href="leirskole.html" class="step-btn">
+                                Tilbake til leirskole
+                            </a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <div class="booking-arrows">
+            <button type="button" class="booking-arrow" onclick="prevStep()" id="prevBtn" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="booking-arrow" onclick="nextStep()" id="nextBtn" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const totalSteps = 10;
+        const form = document.getElementById('bookingForm');
+        const progressBar = document.getElementById('progressBar');
+
+        function showStep(step) {
+            document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+            const targetStep = document.querySelector(`[data-step="${step}"]`);
+            if (targetStep) {
+                targetStep.classList.add('active');
+                const input = targetStep.querySelector('input, textarea');
+                if (input) setTimeout(() => input.focus(), 300);
+            }
+
+            // Update progress
+            progressBar.style.width = `${(step / totalSteps) * 100}%`;
+
+            // Update nav buttons
+            document.getElementById('prevBtn').style.display = step > 0 && step !== 'success' ? 'flex' : 'none';
+            document.getElementById('nextBtn').style.display = step > 0 && step < totalSteps ? 'flex' : 'none';
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                // Validate current step
+                const currentStepEl = document.querySelector(`[data-step="${currentStep}"]`);
+                const requiredInput = currentStepEl.querySelector('[required]');
+                if (requiredInput && !requiredInput.value) {
+                    requiredInput.classList.add('error');
+                    setTimeout(() => requiredInput.classList.remove('error'), 500);
+                    return;
+                }
+
+                currentStep++;
+                showStep(currentStep);
+
+                // Update summary on last step
+                if (currentStep === 10) {
+                    document.getElementById('summaryName').textContent = document.getElementById('contactName').value || 'du';
+                    document.getElementById('summarySchool').textContent = document.getElementById('school').value || '–';
+                    document.getElementById('summaryStudents').textContent = document.getElementById('students').value || '–';
+                    document.getElementById('summarySeason').textContent = document.getElementById('season').value || '–';
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        // Handle Enter key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && currentStep > 0 && currentStep < totalSteps) {
+                const activeTextarea = document.activeElement.tagName === 'TEXTAREA';
+                if (!activeTextarea) {
+                    e.preventDefault();
+                    nextStep();
+                }
+            }
+        });
+
+        // Handle choice buttons
+        document.querySelectorAll('.step-choice').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const parent = this.closest('.step-choices');
+                parent.querySelectorAll('.step-choice').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+
+                // Set hidden input value
+                if (parent.id === 'gradeChoices') {
+                    document.getElementById('grade').value = this.dataset.value;
+                } else if (parent.id === 'seasonChoices') {
+                    document.getElementById('season').value = this.dataset.value;
+                }
+
+                setTimeout(nextStep, 300);
+            });
+        });
+
+        // Handle form submit
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Show success
+            currentStep = 'success';
+            showStep('success');
+            progressBar.style.width = '100%';
+
+            // Here you would normally send data to server
+            const formData = new FormData(form);
+            console.log('Form submitted:', Object.fromEntries(formData));
+        });
+
+        // Initialize
+        showStep(0);
+    </script>
+</body>
+</html>

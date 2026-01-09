@@ -1,0 +1,39 @@
+# Robots.txt for Evjetun Leirsted
+# https://evjetun.no
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://evjetun.no/sitemap.xml
+
+# Crawl-delay (optional, be polite to servers)
+Crawl-delay: 1
+
+# Disallow admin/private areas (none currently)
+# Disallow: /admin/
+# Disallow: /private/
+
+# Allow important resources
+Allow: /styles.css
+Allow: /script.js
+Allow: /images/
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Google Image Bot
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
