@@ -14,22 +14,41 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Navbar scroll effect
+ * Navbar scroll effect - hides on scroll down, shows on scroll up
  */
 function initNavbar() {
     const navbar = document.getElementById('navbar');
     let lastScroll = 0;
+    let ticking = false;
 
     window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const currentScroll = window.pageYOffset;
 
-        if (currentScroll > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+                // Add scrolled class for styling
+                if (currentScroll > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                // Show/hide navbar based on scroll direction (only on mobile)
+                if (window.innerWidth <= 768) {
+                    if (currentScroll > lastScroll && currentScroll > 100) {
+                        // Scrolling down - hide navbar
+                        navbar.classList.add('nav-hidden');
+                    } else {
+                        // Scrolling up - show navbar
+                        navbar.classList.remove('nav-hidden');
+                    }
+                }
+
+                lastScroll = currentScroll;
+                ticking = false;
+            });
+            ticking = true;
         }
-
-        lastScroll = currentScroll;
     });
 }
 
