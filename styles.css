@@ -1728,7 +1728,12 @@ button {
     /* Navigation Mobile - Clean & Professional */
     .navbar {
         position: fixed;
+        padding: 10px 0;
         transition: transform 0.3s ease, background 0.3s ease, padding 0.3s ease;
+    }
+
+    .navbar.scrolled {
+        padding: 8px 0;
     }
 
     .navbar.nav-hidden {
@@ -1737,10 +1742,24 @@ button {
 
     .nav-container {
         flex-wrap: wrap;
+        padding: 0 16px;
+    }
+
+    .nav-logo img {
+        height: 36px;
+    }
+
+    .navbar.scrolled .nav-logo img {
+        height: 32px;
     }
 
     .nav-toggle {
         display: flex;
+        padding: 8px;
+    }
+
+    .nav-toggle span {
+        width: 20px;
     }
 
     .nav-menu {
